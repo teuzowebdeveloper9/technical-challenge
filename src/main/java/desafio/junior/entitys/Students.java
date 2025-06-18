@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "students")
-public class Students {
+public class Students  extends baseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -23,13 +23,48 @@ public class Students {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate BornIn;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate untilIn;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate updatedIn;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Registrations>  registrations;
 
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(Integer telephone) {
+        this.telephone = telephone;
+    }
+
+    public LocalDate getBornIn() {
+        return BornIn;
+    }
+
+    public void setBornIn(LocalDate bornIn) {
+        BornIn = bornIn;
+    }
+
+    public List<Registrations> getRegistrations() {
+        return registrations;
+    }
+
+    public void setRegistrations(List<Registrations> registrations) {
+        this.registrations = registrations;
+    }
 }
