@@ -64,7 +64,7 @@ public class StudentsServices {
 
         studentsRepository.delete(findStudent);
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
 
     public Optional<Students> findById(UUID id){

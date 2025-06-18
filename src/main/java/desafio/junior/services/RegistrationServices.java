@@ -39,7 +39,7 @@ public class RegistrationServices {
 
         registrationsRepository.delete(deletedRegistration);
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
 
     public Optional<Registrations> findByCourse(String course){

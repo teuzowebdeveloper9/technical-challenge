@@ -18,6 +18,19 @@ public abstract class baseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate updatedIn;
 
+    @PrePersist
+    public void onCreate() {
+        if (this.untilIn == null) {
+            this.untilIn = LocalDate.now();
+        }
+        this.updatedIn = LocalDate.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedIn = LocalDate.now();
+    }
+
     public LocalDate getUntilIn() {
         return untilIn;
     }
