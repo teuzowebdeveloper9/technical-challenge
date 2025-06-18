@@ -1,8 +1,10 @@
 package desafio.junior.controllers;
 
+import desafio.junior.DTOs.RegisterDTO;
 import desafio.junior.DTOs.StudentsDTO;
 import desafio.junior.entitys.Students;
 import desafio.junior.services.StudentsServices;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +22,14 @@ public class StudentController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Students> createStudent(StudentsDTO dto){
+    public ResponseEntity<Students> createStudent(@Valid @RequestBody StudentsDTO dto){
         return  studentsServices.createStudent(dto);
+    }
+
+    @PostMapping("/register")
+    public Students register(@Valid @RequestBody RegisterDTO registerDTO){
+
+        return studentsServices.addRegistration(registerDTO);
     }
 
 

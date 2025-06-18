@@ -1,4 +1,13 @@
 package desafio.junior.DTOs;
 
-public record registerDTO() {
+import jakarta.validation.constraints.NotBlank;
+
+import java.util.UUID;
+
+public record RegisterDTO(
+        @NotBlank
+        UUID studentId,
+        @NotBlank
+        UUID RegistrationId
+) {
 }

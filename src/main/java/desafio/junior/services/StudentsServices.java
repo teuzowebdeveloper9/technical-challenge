@@ -1,11 +1,11 @@
 package desafio.junior.services;
 
+import desafio.junior.DTOs.RegisterDTO;
 import desafio.junior.DTOs.StudentsDTO;
 import desafio.junior.entitys.Registrations;
 import desafio.junior.entitys.Students;
 import desafio.junior.repositorys.RegistrationsRepository;
 import desafio.junior.repositorys.StudentsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,13 +38,14 @@ public class StudentsServices {
 
     }
 
-    public Students addRegistration(UUID studentID, UUID RegistrationId){
-      Students student =  studentsRepository.findById(studentID)
+    public Students addRegistration(RegisterDTO registerDTO){
+      Students student =  studentsRepository.findById(registerDTO.studentId())
                 .orElseThrow(() -> new RuntimeException("student NOT FOUND"));
 
-      Registrations registration = registrationsRepository.findById(RegistrationId)
+      Registrations registration = registrationsRepository.findById(registerDTO.RegistrationId())
                 .orElseThrow(() -> new RuntimeException("registration NOT FOUND"));
 
+      registration.setStudent(student);
       student.getRegistrations().add(registration);
 
       return student;
