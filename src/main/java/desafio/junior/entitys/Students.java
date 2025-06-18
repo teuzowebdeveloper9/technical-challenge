@@ -23,6 +23,8 @@ public class Students  extends baseEntity{
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate BornIn;
 
+    public Students() {
+    }
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Registrations>  registrations;
