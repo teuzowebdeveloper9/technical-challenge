@@ -2,6 +2,7 @@ package desafio.junior.controllers;
 
 import desafio.junior.entitys.Registrations;
 import desafio.junior.entitys.Students;
+import desafio.junior.services.RegistrationServices;
 import desafio.junior.services.StudentsServices;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +19,11 @@ import java.util.UUID;
 public class SearchController {
 
     private final StudentsServices studentsServices;
+    private final RegistrationServices registrationServices;
 
-    public SearchController(StudentsServices studentsServices) {
+    public SearchController(StudentsServices studentsServices, RegistrationServices registrationServices) {
         this.studentsServices = studentsServices;
+        this.registrationServices = registrationServices;
     }
 
     @GetMapping("{id}")
@@ -31,6 +34,35 @@ public class SearchController {
     @GetMapping("{name}")
     public Optional<Students> searchStudentByName(@PathVariable String name){
         return studentsServices.findByName(name);
+    }
+
+    @GetMapping("{course}")
+    public Optional<Registrations> findByCourse(String course){
+       return registrationServices.findByCourse(course);
+    }
+
+    @GetMapping("{registrationId}")
+    public Optional<Registrations> findById(@PathVariable UUID id){
+       return registrationServices.findById(id);
+    }
+
+    @GetMapping("rq")
+    public ResponseEntity<?> searchRegistration(@PathVariable("rq") String query){
+        Optional<Registrations> registration = registrationServices.findByCourse(query);
+
+        if(registration != null){
+            return ResponseEntity.ok(registration);
+        }
+
+        try {
+            UUID id =UUID.fromString(query);
+
+            return registrationServices.findById(id)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        }catch (IllegalArgumentException e){
+          return  ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("{q}")
@@ -53,7 +85,9 @@ public class SearchController {
     }
 
     @GetMapping("{register}")
-    public List<Registrations> listRegistrations(UUID id){
+    public List<Registrations> listRegistrations(@PathVariable UUID id){
         return studentsServices.listRegistrations(id);
     }
+
+
 }

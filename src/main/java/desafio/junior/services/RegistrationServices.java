@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -41,16 +42,14 @@ public class RegistrationServices {
         return ResponseEntity.notFound().build();
     }
 
-    public Registrations findByCourse(String course){
-      Registrations registration =   registrationsRepository.findByCourse(course)
-                 .orElseThrow(() -> new RuntimeException("registration NOT FOUND"));
+    public Optional<Registrations> findByCourse(String course){
+      Optional<Registrations> registration =   registrationsRepository.findByCourse(course);
 
       return registration;
     }
 
-    public Registrations findById(UUID id){
-        Registrations registration = registrationsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("registration NOT FOUND"));
+    public Optional<Registrations> findById(UUID id){
+        Optional<Registrations> registration = registrationsRepository.findById(id);
 
         return registration;
     }

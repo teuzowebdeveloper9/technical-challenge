@@ -44,7 +44,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Students> editStudent(@PathVariable UUID id, StudentsDTO dto){
+    public ResponseEntity<Students> editStudent(@PathVariable UUID id,@Valid @RequestBody StudentsDTO dto){
         return studentsServices.editStudent(id,dto);
     }
 
