@@ -1,6 +1,6 @@
 package desafio.junior.services;
 
-import desafio.junior.DTOs.RegisterDTO;
+import desafio.junior.DTOs.RegistrationDTO;
 import desafio.junior.entitys.Registrations;
 import desafio.junior.repositorys.RegistrationsRepository;
 import org.springframework.http.HttpStatus;
@@ -35,10 +35,37 @@ public class RegistrationServices {
     public ResponseEntity<Void> deleteRegistration(UUID id){
         Registrations deletedRegistration =  registrationsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Registration NOT FOUND"));
-        
+
         registrationsRepository.delete(deletedRegistration);
 
         return ResponseEntity.notFound().build();
+    }
+
+    public Registrations findByCourse(String course){
+      Registrations registration =   registrationsRepository.findByCourse(course)
+                 .orElseThrow(() -> new RuntimeException("registration NOT FOUND"));
+
+      return registration;
+    }
+
+    public Registrations findById(UUID id){
+        Registrations registration = registrationsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("registration NOT FOUND"));
+
+        return registration;
+    }
+
+    public Registrations editRegistration(UUID id, RegistrationDTO dto){
+        Registrations registrationFind = registrationsRepository
+                .findById(id).orElseThrow(() -> new RuntimeException("registration NOT FOUND"));
+
+        registrationFind.setCodeRegistration(dto.codeRegistration());
+        registrationFind.setStartIn(dto.startIn());
+        registrationFind.setCourse(dto.course());
+
+       Registrations registrationSaved = registrationsRepository.save(registrationFind);
+
+       return registrationSaved;
     }
 
     public List<Registrations> ListAllRegistration(){
