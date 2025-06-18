@@ -5,17 +5,20 @@ import desafio.junior.entitys.Registrations;
 import desafio.junior.entitys.Students;
 import desafio.junior.repositorys.RegistrationsRepository;
 import desafio.junior.repositorys.StudentsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class StudentsServices {
     public final StudentsRepository studentsRepository;
     public  final RegistrationsRepository registrationsRepository;
+
 
     public StudentsServices(StudentsRepository studentsRepository, RegistrationsRepository registrationsRepository) {
         this.studentsRepository = studentsRepository;
@@ -48,7 +51,7 @@ public class StudentsServices {
     }
 
     public List<Registrations> listRegistrations(UUID id){
-        Students findStudent = studentsRepository.findByIdWithRegistrations(id)
+        Students findStudent = studentsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("student NOT FOUND"));
 
         return findStudent.getRegistrations();
@@ -63,14 +66,14 @@ public class StudentsServices {
         return ResponseEntity.notFound().build();
     }
 
-    public Students findById(UUID id){
-      Students student =  studentsRepository.findById(id).orElseThrow(() -> new RuntimeException("student NOT FOUND"));
+    public Optional<Students> findById(UUID id){
+      Optional<Students> student =  studentsRepository.findById(id);
 
         return student;
     }
 
-    public Students findByName(String name){
-      Students student = studentsRepository.findByName(name).orElseThrow(() -> new RuntimeException("student NOT FOUND"));
+    public Optional<Students> findByName(String name){
+      Optional<Students> student = studentsRepository.findByName(name);
 
       return student;
     }
@@ -87,6 +90,10 @@ public class StudentsServices {
         return ResponseEntity.noContent().build();
     }
 
-    
+    public List<Students> ListAllStudents(){
+        return studentsRepository.findAll();
+    }
+
+
 
 }

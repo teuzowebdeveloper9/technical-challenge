@@ -12,6 +12,5 @@ public interface StudentsRepository extends JpaRepository<Students, UUID> {
      Optional<Students> findByName(String name);
 
 
-    @Query("SELECT s FROM Student s LEFT JOIN FETCH s.registrations WHERE s.id = :id")
-    Optional<Students> findByIdWithRegistrations(@Param("id") UUID id);
+
 }
